@@ -1,5 +1,7 @@
 package com.example.core
 
+import android.util.Log
+
 class CoreClass {
 
     fun getFeature(): String {
