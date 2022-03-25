@@ -4,6 +4,7 @@ class CoreClass {
 
     fun getFeature(): String {
         Thread.sleep(5000)
+        // ch
         return "CoreClass"
     }
 
