@@ -7,7 +7,7 @@ buildscript {
         classpath "com.dropbox.affectedmoduledetector:affectedmoduledetector:0.1.4"
         classpath "com.android.tools.build:gradle:7.1.2"
 
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.2.0"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.2.1"
         classpath "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
     }
@@ -17,19 +17,20 @@ plugins {
     id 'com.android.application' version '7.1.2' apply false
     id 'com.android.library' version '7.1.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10' apply false
 }
 
 //rootproject
 apply plugin: "com.dropbox.affectedmoduledetector"
+//apply plugin: MyPlugin
 
 affectedModuleDetector {
     baseDir = "${project.rootDir}"
-    pathsAffectingAllModules = [
-            "buildSrc/"
-    ]
-    logFilename = "output.log"
-    logFolder = "${project.rootDir}/output"
+    pathsAffectingAllModules = ["buildSrc/"]
+    logFilename = "impact-analysis.txt"
+    logFolder = "${ project.rootDir }"
     specifiedBranch = "dev"
+    excludedModules = ["my-lib"]
     compareFrom = "SpecifiedBranchCommit" //default is PreviousCommit
     includeUncommitted = false
     top = "HEAD"
