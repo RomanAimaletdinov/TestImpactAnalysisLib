@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun getStr(): String {
-            //Thread.sleep(5000)
+            Thread.sleep(5000)
             return "MainActivity"
         }
     }
