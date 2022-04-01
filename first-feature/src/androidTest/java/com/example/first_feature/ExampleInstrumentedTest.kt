@@ -19,6 +19,7 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         Thread.sleep(5000)
+        println("FIRST_FEATURE: TEST1")
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.first_feature.test", appContext.packageName)
     }
@@ -27,6 +28,7 @@ class ExampleInstrumentedTest {
     fun useAppContext2() {
         // Context of the app under test.
         Thread.sleep(5000)
+        println("FIRST_FEATURE: TEST2")
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.first_feature.test", appContext.packageName)
     }
