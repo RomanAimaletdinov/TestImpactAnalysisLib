@@ -16,4 +16,4 @@ rootProject.name = "TestImpactAnalysisLib"
 include ':app'
 include ':core'
 include ':first-feature'
-include ':my-lib'
+//include ':my-lib'

@@ -14,6 +14,7 @@ class ImpactAnalysisPlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
+        System.err.println("ROMAN: apply: ImpactAnalysisPlugin")
         require(project.isRoot) {
             "Must be applied to root project, but was found on ${project.path} instead."
         }
@@ -105,11 +106,14 @@ class ImpactAnalysisPlugin : Plugin<Project> {
             .withPlugin(pluginId) {
                 val path = getAffectedPath(testType, project)
                 if (AffectedModuleDetector.isProjectProvided(project)) {
+                    System.err.println("ROMAN: isProjectProvided -> task: $testType")
                     task.dependsOn(path)
                 }
                 project.afterEvaluate {
                     project.tasks.findByPath(path)?.onlyIf {
-                        AffectedModuleDetector.isProjectAffected(project)
+                        val v = AffectedModuleDetector.isProjectAffected(project)
+                        System.err.println("ROMAN: afterEvaluate -> task: $testType, isAffect: $v")
+                        false
                     }
                 }
             }
@@ -120,7 +124,7 @@ class ImpactAnalysisPlugin : Plugin<Project> {
         project: Project
     ): String {
         return when (testType) {
-            is TaskType.DetektTask -> "${project.path}:detekt"
+            is TaskType.DetektTask -> "${project.path}:testDebugUnitTest"
             is TaskType.AndroidTestTask -> "${project.path}:connectedDebugAndroidTest"
         }
     }
