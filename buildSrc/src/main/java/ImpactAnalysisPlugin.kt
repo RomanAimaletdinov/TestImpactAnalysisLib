@@ -80,17 +80,17 @@ class ImpactAnalysisPlugin : Plugin<Project> {
     }
 
     private fun filterAndroidTests(project: Project) {
-        val tracker = DependencyTracker(project, null)
-        project.tasks.configureEach {
-            if (this.name.contains("AndroidTest")) {
-                tracker.findAllDependents(project).forEach { dependentProject ->
-                    dependentProject.tasks.forEach { dependentTask ->
-                        AffectedModuleDetector.configureTaskGuard(dependentTask)
-                    }
-                }
-                AffectedModuleDetector.configureTaskGuard(this)
-            }
-        }
+//        val tracker = DependencyTracker(project, null)
+//        project.tasks.configureEach {
+//            if (this.name.contains("AndroidTest")) {
+//                tracker.findAllDependents(project).forEach { dependentProject ->
+//                    dependentProject.tasks.forEach { dependentTask ->
+//                        AffectedModuleDetector.configureTaskGuard(dependentTask)
+//                    }
+//                }
+//                AffectedModuleDetector.configureTaskGuard(this)
+//            }
+//        }
     }
 
     private fun filterTaskIfAffected(project: Project) {
