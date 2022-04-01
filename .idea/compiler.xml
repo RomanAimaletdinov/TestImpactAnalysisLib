@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="TestImpactAnalysisLib.app" target="11" />
+      <module name="TestImpactAnalysisLib.buildSrc" target="11" />
       <module name="TestImpactAnalysisLib.core" target="11" />
       <module name="TestImpactAnalysisLib.first-feature" target="11" />
     </bytecodeTargetLevel>

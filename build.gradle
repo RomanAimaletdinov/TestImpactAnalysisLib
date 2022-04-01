@@ -22,7 +22,7 @@ plugins {
 
 //rootproject
 apply plugin: "com.dropbox.affectedmoduledetector"
-//apply plugin: MyPlugin
+apply plugin: ImpactAnalysisPlugin
 
 affectedModuleDetector {
     baseDir = "${project.rootDir}"

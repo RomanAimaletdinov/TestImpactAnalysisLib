@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("ROMAN", "core: $text")
     }
 
-
     companion object {
         fun getStr(): String {
             Thread.sleep(5000)
