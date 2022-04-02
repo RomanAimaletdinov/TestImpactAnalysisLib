@@ -111,7 +111,7 @@ class ImpactAnalysisPlugin : Plugin<Project> {
                     project.tasks.findByPath(path)?.onlyIf {
                         val v = AffectedModuleDetector.isProjectAffected(project)
                         System.err.println("ROMAN: afterEvaluate -> project: ${project.name}, isAffect: $v")
-                        false
+                        v
                     }
                 }
             }
