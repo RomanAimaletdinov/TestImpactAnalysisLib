@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.dropbox.affectedmoduledetector:affectedmoduledetector:0.1.4"
+       // classpath "com.dropbox.affectedmoduledetector:affectedmoduledetector:0.1.4"
         classpath "com.android.tools.build:gradle:7.1.2"
 
         classpath "org.jlleitschuh.gradle:ktlint-gradle:10.2.1"
@@ -21,7 +21,7 @@ plugins {
 }
 
 //rootproject
-apply plugin: "com.dropbox.affectedmoduledetector"
+apply plugin: AffectedModuleDetectorPlugin
 apply plugin: ImpactAnalysisPlugin
 
 affectedModuleDetector {
