@@ -1,6 +1,4 @@
-import com.dropbox.affectedmoduledetector.AffectedModuleDetector
-import com.dropbox.affectedmoduledetector.DependencyTracker
-import com.dropbox.affectedmoduledetector.isRoot
+import com.dropbox.affectedmoduledetector.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -112,7 +110,7 @@ class ImpactAnalysisPlugin : Plugin<Project> {
                 project.afterEvaluate {
                     project.tasks.findByPath(path)?.onlyIf {
                         val v = AffectedModuleDetector.isProjectAffected(project)
-                        System.err.println("ROMAN: afterEvaluate -> task: $testType, isAffect: $v")
+                        System.err.println("ROMAN: afterEvaluate -> project: ${project.name}, isAffect: $v")
                         false
                     }
                 }
