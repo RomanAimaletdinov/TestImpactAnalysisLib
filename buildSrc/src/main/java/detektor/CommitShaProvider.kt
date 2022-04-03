@@ -1,7 +1,7 @@
 package detektor
 
-import detektor.wo.GitClient
-import detektor.wo.Sha
+import GitClient
+import Sha
 
 interface CommitShaProvider {
     fun get(commandRunner: GitClient.CommandRunner): Sha

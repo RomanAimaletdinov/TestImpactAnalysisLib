@@ -1,8 +1,7 @@
 package detektor
 
-import detektor.CommitShaProvider
-import detektor.wo.GitClient
-import detektor.wo.Sha
+import GitClient
+import Sha
 
 class SpecifiedBranchCommit(private val branch: String) : CommitShaProvider {
 

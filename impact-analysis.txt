@@ -2278,3 +2278,33 @@
 [INFO] [amd] checking whether I should include :app and my answer is true
 [INFO] [amd] checking whether I should include :first-feature and my answer is true
 [INFO] [amd] checking whether I should include :first-feature and my answer is true
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] running command git rev-parse dev in /Users/romanajmaletdinov/hlam/TestImpactAnalysisLib
+[INFO] [amd] Response: a3f603770c00443e84055f926cf1750a97df8564
+
+[INFO] [amd] running command git --no-pager diff --name-only -M95 HEAD..a3f603770c00443e84055f926cf1750a97df8564 in /Users/romanajmaletdinov/hlam/TestImpactAnalysisLib
+[INFO] [amd] Response: 
+[INFO] [amd] unknownFiles: [], changedProjects: [], buildAll: true
+[INFO] [amd] Building all projects because no changed files were detected
+[INFO] [amd] checking whether I should include :core and my answer is true
+[INFO] [amd] checking whether I should include :first-feature and my answer is true
+[INFO] [amd] checking whether I should include :app and my answer is true
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS
+[INFO] [amd] Modules provided: null
+[INFO] [amd] Using real detector with ALL_AFFECTED_PROJECTS

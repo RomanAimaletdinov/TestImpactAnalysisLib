@@ -2,7 +2,6 @@
  * Copyright (c) 2020, Dropbox, Inc. All rights reserved.
  */
 
-import detektor.wo.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -38,10 +37,11 @@ class AffectedModuleDetectorPlugin : Plugin<Project> {
         require(project.isRoot) {
             "Must be applied to root project, but was found on ${project.path} instead."
         }
-        registerExtensions(project)
-        registerAffectedAndroidTests(project)
-        registerAffectedConnectedTestTask(project)
-        registerJvmTests(project)
+
+        registerSubmoduleConfiguration(project)
+        val mainConfiguration = registerMainConfiguration(project)
+        registerCustomTasks(project, mainConfiguration)
+        registerTestTasks(project)
 
         project.gradle.projectsEvaluated {
             AffectedModuleDetector.configure(project.gradle, project)
@@ -51,59 +51,62 @@ class AffectedModuleDetectorPlugin : Plugin<Project> {
         }
     }
 
-    private fun registerJvmTests(project: Project) {
-        registerAffectedTestTask(
-            TestType.JvmTest(
-                "runAffectedUnitTests",
-                TASK_GROUP_NAME,
-                "Runs all affected unit tests"
-            ), project)
+    private fun registerCustomTasks(
+        rootProject: Project,
+        mainConfiguration: AffectedModuleConfiguration
+    ) {
+        rootProject.afterEvaluate {
+            mainConfiguration
+                .customTasks
+                .forEach { taskType ->
+                    registerAffectedTestTask(
+                        taskType = taskType,
+                        rootProject = rootProject
+                    )
+                }
+        }
     }
 
-    private fun registerAffectedConnectedTestTask(rootProject: Project) {
+    private fun registerTestTasks(rootProject: Project) {
         registerAffectedTestTask(
-            TestType.RunAndroidTest(
-                "runAffectedAndroidTests",
-                TASK_GROUP_NAME,
-                "Runs all affected Android Tests. Requires a connected device. "
-            ), rootProject)
-    }
-
-    private fun registerAffectedAndroidTests(rootProject: Project) {
+            taskType = TestTaskType.JVM_TEST,
+            rootProject = rootProject
+        )
         registerAffectedTestTask(
-            TestType.AssembleAndroidTest(
-                "assembleAffectedAndroidTests",
-                TASK_GROUP_NAME,
-                "Assembles all affected Android Tests.  Useful when working with device labs."
-            ), rootProject)
+            taskType = TestTaskType.ANDROID_TEST,
+            rootProject = rootProject
+        )
+        registerAffectedTestTask(
+            taskType = TestTaskType.ASSEMBLE_ANDROID_TEST,
+            rootProject = rootProject
+        )
     }
 
     internal fun registerAffectedTestTask(
-        testType: TestType,
+        taskType: BaseTaskType,
         rootProject: Project
     ) {
-        val task = rootProject.tasks.register(testType.name).get()
-        task.group = testType.group
-        task.description = testType.description
+        val task = rootProject.tasks.register(taskType.impactCommand).get()
+        task.group = TASK_GROUP_NAME
+        task.description = taskType.description
 
         rootProject.subprojects {
             project.afterEvaluate {
                 val pluginIds = setOf("com.android.application", "com.android.library", "java-library", "kotlin")
                 pluginIds.forEach { pluginId ->
                     if (pluginId == "java-library" || pluginId == "kotlin") {
-                        if (testType is TestType.JvmTest) {
-                            withPlugin(pluginId, task, testType, this)
+                        if (taskType == TestTaskType.JVM_TEST) {
+                            withPlugin(pluginId, task, taskType, this)
                         }
                     } else {
-                        withPlugin(pluginId, task, testType, this)
+                        withPlugin(pluginId, task, taskType, this)
                     }
                 }
             }
-
         }
     }
 
-    private fun withPlugin(pluginId: String, task: Task, testType: TestType, project: Project) {
+    private fun withPlugin(pluginId: String, task: Task, testType: BaseTaskType, project: Project) {
         project.pluginManager.withPlugin(pluginId) {
             getAffectedPath(testType, project)?.let { path ->
                 if (AffectedModuleDetector.isProjectProvided(project)) {
@@ -119,7 +122,7 @@ class AffectedModuleDetectorPlugin : Plugin<Project> {
     }
 
     private fun getAffectedPath(
-        testType: TestType,
+        testType: BaseTaskType,
         project: Project
     ): String? {
         val tasks = requireNotNull(
@@ -129,9 +132,10 @@ class AffectedModuleDetectorPlugin : Plugin<Project> {
         } as AffectedTestConfiguration
 
         return when (testType) {
-            is TestType.RunAndroidTest -> getPathAndTask(project, tasks.runAndroidTestTask)
-            is TestType.AssembleAndroidTest -> getPathAndTask(project, tasks.assembleAndroidTestTask)
-            is TestType.JvmTest -> getPathAndTask(project, tasks.jvmTestTask)
+            TestTaskType.ANDROID_TEST -> getPathAndTask(project, tasks.runAndroidTestTask)
+            TestTaskType.ASSEMBLE_ANDROID_TEST -> getPathAndTask(project, tasks.assembleAndroidTestTask)
+            TestTaskType.JVM_TEST -> getPathAndTask(project, tasks.jvmTestTask)
+            else -> getPathAndTask(project, testType.originalCommand)
         }
     }
 
@@ -164,23 +168,24 @@ class AffectedModuleDetectorPlugin : Plugin<Project> {
         }
     }
 
-    private fun registerExtensions(project: Project) {
+    private fun registerMainConfiguration(project: Project): AffectedModuleConfiguration {
+        val configuration = AffectedModuleConfiguration()
         project.extensions.add(
             AffectedModuleConfiguration.name,
-            AffectedModuleConfiguration()
+            configuration
         )
+        return configuration
+    }
+
+    private fun registerSubmoduleConfiguration(project: Project): AffectedTestConfiguration {
+        val configuration = AffectedTestConfiguration()
         project.subprojects {
             this.extensions.add(
                 AffectedTestConfiguration.name,
-                AffectedTestConfiguration()
+                configuration
             )
         }
-    }
-    
-    internal sealed class TestType(open val name: String, open val group: String, open val description: String) {
-        data class RunAndroidTest(override val name: String, override val group: String, override val  description: String) : TestType(name, group, description)
-        data class AssembleAndroidTest(override val name: String, override val group: String, override val  description: String) : TestType(name, group, description)
-        data class JvmTest(override val name: String, override val group: String, override val  description: String) : TestType(name, group, description)
+        return configuration
     }
 
     companion object {

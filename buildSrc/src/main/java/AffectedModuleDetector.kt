@@ -19,12 +19,10 @@
  */
 @file:JvmName("AffectedModuleDetectorUtil")
 
-package detektor.wo
-
-import detektor.wo.AffectedModuleDetector.Companion.CHANGED_PROJECTS_ARG
-import detektor.wo.AffectedModuleDetector.Companion.DEPENDENT_PROJECTS_ARG
-import detektor.wo.AffectedModuleDetector.Companion.ENABLE_ARG
-import detektor.wo.AffectedModuleDetector.Companion.MODULES_ARG
+import AffectedModuleDetector.Companion.CHANGED_PROJECTS_ARG
+import AffectedModuleDetector.Companion.DEPENDENT_PROJECTS_ARG
+import AffectedModuleDetector.Companion.ENABLE_ARG
+import AffectedModuleDetector.Companion.MODULES_ARG
 import detektor.CommitShaProvider
 import org.gradle.api.GradleException
 import org.gradle.api.Project
@@ -339,7 +337,10 @@ class AffectedModuleDetectorImpl constructor(
         injectedGitClient ?: GitClientImpl(
             rootProject.projectDir,
             logger,
-            commitShaProvider = CommitShaProvider.fromString(config.compareFrom, config.specifiedBranch)
+            commitShaProvider = CommitShaProvider.fromString(
+                config.compareFrom,
+                config.specifiedBranch
+            )
         )
     }
 

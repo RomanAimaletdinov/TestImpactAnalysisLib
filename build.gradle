@@ -22,7 +22,7 @@ plugins {
 
 //rootproject
 apply plugin: AffectedModuleDetectorPlugin
-apply plugin: ImpactAnalysisPlugin
+// apply plugin: ImpactAnalysisPlugin
 
 affectedModuleDetector {
     baseDir = "${project.rootDir}"
@@ -30,6 +30,7 @@ affectedModuleDetector {
     logFilename = "impact-analysis.txt"
     logFolder = "${ project.rootDir }"
     specifiedBranch = "dev"
+    customTasks = [TestTaskType.DETEKT_TASK]
     excludedModules = ["my-lib"]
     compareFrom = "SpecifiedBranchCommit" //default is PreviousCommit
     includeUncommitted = false

@@ -1,7 +1,7 @@
 package detektor
 
-import detektor.wo.GitClient
-import detektor.wo.Sha
+import GitClient
+import Sha
 
 class ForkCommit: CommitShaProvider {
     override fun get(commandRunner: GitClient.CommandRunner): Sha {

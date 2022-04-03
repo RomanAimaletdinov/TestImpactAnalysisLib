@@ -17,9 +17,6 @@
  /*
  * Copyright (c) 2020, Dropbox, Inc. All rights reserved.
  */
-
-package detektor.wo
-
 import org.gradle.api.Project
 import org.gradle.api.logging.Logger
 import java.io.File

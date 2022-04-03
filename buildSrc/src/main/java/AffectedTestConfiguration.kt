@@ -1,5 +1,3 @@
-package detektor.wo
-
 /**
  * Used to configure which variant to run for affected tasks by adding following block to modules
  * affectedTestConfiguration{

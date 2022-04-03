@@ -1,5 +1,3 @@
-package detektor.wo
-
 import java.io.File
 
 class AffectedModuleConfiguration {
@@ -57,6 +55,15 @@ class AffectedModuleConfiguration {
      * A set of modules that will not be considered in the build process, even if changes are made in them.
      */
     var excludedModules = emptySet<String>()
+
+    /**
+     * TODO
+     */
+    var customTasks = emptySet<BaseTaskType>()
+    set(value) {
+        println("ROMAN: Устанавливаем customTasks: $value")
+        field = value
+    }
 
     /**
      * If uncommitted files should be considered affected

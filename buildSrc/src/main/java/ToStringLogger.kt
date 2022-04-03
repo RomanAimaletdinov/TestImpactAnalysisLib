@@ -18,8 +18,6 @@
  * Copyright (c) 2020, Dropbox, Inc. All rights reserved.
  */
 
-package detektor.wo
-
 import org.gradle.BuildAdapter
 import org.gradle.BuildResult
 import org.gradle.api.invocation.Gradle
